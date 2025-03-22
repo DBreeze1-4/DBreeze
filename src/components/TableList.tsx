@@ -10,23 +10,22 @@ interface TableListProps {
 
 const TableList: React.FC<TableListProps> = ({ dbConfig }) => {
   const [tables, setTables] = useState<string[]>([]);
+  const API_URL = "http://localhost:8080/api/tables";
 
   useEffect(() => {
     if (dbConfig) {
       const fetchTables = async () => {
         try {
-          const response = await axios.post(
-            "http://localhost:5000/api/tables",
-            dbConfig
-          );
+          const response = await axios.post(API_URL, dbConfig);
           setTables(response.data);
         } catch (error) {
+          console.log(dbConfig);
           console.error("Error fetching tables:", error);
         }
       };
       fetchTables();
     }
-  }, [dbConfig]);
+  }, [API_URL, dbConfig]);
 
   return (
     <div>

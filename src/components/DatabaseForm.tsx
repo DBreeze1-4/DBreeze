@@ -12,48 +12,58 @@ const DatabaseForm: React.FC<DatabaseFormProps> = ({ onConnect }) => {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [database, setDatabase] = useState<string>("");
+  const [token, setToken] = useState<string>("");
+  const [port, setPort] = useState<string>("");
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (client !== "mysql2" && client !== "sqlite3") {
-      alert("Client must be either 'mysql2' or 'sqlite3'.");
-      return;
-    }
-    const config: DbConfig = { client, host, user, password, database };
+    const config: DbConfig = { client, host, user, password, database, token, port };
     onConnect(config);  // Llamamos a la función onConnect que pasamos como prop
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <select value={client} onChange={(e) => setClient(e.target.value)}>
+        <option value="" disabled>Select Client</option>
+        <option value="mysql2">MySQL</option>
+        <option value="sqlite3">SQLite</option>
+        <option value="libsql">LibSQL</option>
+      </select>
       <input
-        type="text"
-        value={client}
-        onChange={(e) => setClient(e.target.value)}
-        placeholder="Client (mysql, pg, sqlite3)"
+      type="text"
+      value={host}
+      onChange={(e) => setHost(e.target.value)}
+      placeholder="Host"
       />
       <input
-        type="text"
-        value={host}
-        onChange={(e) => setHost(e.target.value)}
-        placeholder="Host"
+      type="text"
+      value={user}
+      onChange={(e) => setUser(e.target.value)}
+      placeholder="User"
       />
       <input
-        type="text"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-        placeholder="User"
+      type="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      placeholder="Password"
       />
       <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
+      type="text"
+      value={database}
+      onChange={(e) => setDatabase(e.target.value)}
+      placeholder="Database"
       />
       <input
-        type="text"
-        value={database}
-        onChange={(e) => setDatabase(e.target.value)}
-        placeholder="Database"
+      type="text"
+      value={token}
+      onChange={(e) => setToken(e.target.value)}
+      placeholder="Token"
+      />
+      <input
+      type="text"
+      value={port}
+      onChange={(e) => setPort(e.target.value)}
+      placeholder="Port"
       />
       <button type="submit">Connect</button>
     </form>
