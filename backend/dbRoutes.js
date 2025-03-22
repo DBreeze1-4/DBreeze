@@ -69,6 +69,7 @@ router.post("/table/:name", async (req, res) => {
 
   try {
     const data = await db.select("*").from(name);
+    console.log("Datos obtenidos de la base de datos:", data);
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
