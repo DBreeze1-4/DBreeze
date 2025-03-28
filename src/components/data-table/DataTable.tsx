@@ -11,6 +11,7 @@ import {
 import { cx } from "../../lib/utils"
 import * as React from "react"
 import axios from "axios"
+import { DbConfig } from "../../types/dbTypes"
 
 import { DataTableBulkEditor } from "./DataTableBulkEditor"
 import { DataTablePagination } from "./DataTablePagination"
@@ -24,14 +25,16 @@ import {
 } from "@tanstack/react-table"
 
 interface DataTableProps {
-  tableName: string
-  dbConfig: Record<string, any>
+  tableName: string;
+  dbConfig: DbConfig;
 }
 
 export function DataTable({ tableName, dbConfig }: DataTableProps) {
   const API_URL = `http://localhost:8080/api/show-data/${tableName}` // Dynamic API URL
   const pageSize = 20
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = React.useState<any[]>([])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [dynamicColumns, setDynamicColumns] = React.useState<any[]>([])
 
   React.useEffect(() => {

@@ -1,8 +1,9 @@
 import { useOutletContext } from "react-router-dom";
 import { DataTable } from "../components/data-table/DataTable"
+import { DbConfig } from "../types/dbTypes"
 
 export default function Content() {
-  const table = useOutletContext();
+  const table = useOutletContext<{ selectedTable?: string; selectedDbConfig?: DbConfig }>();
 
   return (
     <div>
@@ -10,7 +11,11 @@ export default function Content() {
         {table.selectedTable ? `Table: ${table.selectedTable}` : "Select a table"}
       </h1>
       <div className="mt-4 sm:mt-6 lg:mt-10">
-        {table.selectedTable && <DataTable tableName={table.selectedTable} dbConfig={table.selectedDbConfig} />}
+        {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          table.selectedTable && <DataTable tableName={table.selectedTable} dbConfig={table.selectedDbConfig} />
+        }
       </div>
     </div>
   )

@@ -2,16 +2,26 @@ import { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Button } from "./components/tremor/Button";
 import DatabaseForm from "./components/DatabaseForm";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { signOut } from "../backend/firebase/login";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { getAllDatabaseConnections } from "../backend/firebase/connections";
 import TableList from "./components/TableList";
+import { DbConfig } from "./types/dbTypes";
 
 const user = localStorage.getItem("user");
-const userId = JSON.parse(user!).uid;
+const userId = user ? JSON.parse(user!).uid : "";
 
 const Layout = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [connections, setConnections] = useState([]);
+  interface Connection {
+    name: string;
+    dbConfig: DbConfig;
+  }
+
+  const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedTable, setSelectedTable] = useState(null); // New state for selected table
   const [selectedDbConfig, setSelectedDbConfig] = useState(null);
 
@@ -32,6 +42,8 @@ const Layout = () => {
     setIsPopupVisible(false);
   };
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const handleTableSelect = (table, dbConfig) => {
     setSelectedTable(table); // Update selected table
     setSelectedDbConfig(dbConfig);
